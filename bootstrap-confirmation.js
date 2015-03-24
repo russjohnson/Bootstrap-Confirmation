@@ -2,6 +2,7 @@
  * Bootstrap Confirmation
  * Copyright 2013 Nimit Suwannagate <ethaizone@hotmail.com>
  * Copyright 2014 Damien "Mistic" Sorel <http://www.strangeplanet.fr>
+ * Copyright 2015 Russ Johnson <http://www.angry-fly.com>
  * Licensed under the Apache License, Version 2.0 (the "License")
  */
 
@@ -26,6 +27,10 @@
         if (this.$element.attr('target')) {
           this.options.target = this.$element.attr('target');
         }
+      }
+
+      if (this.$element.data('method')) {
+        this.options.method = this.$element.data('method');
       }
 
       // cancel original event
@@ -65,7 +70,7 @@
             if ($(that.options._selector).is(e.target)) {
               return;
             }
-  
+
             // close all popover already initialized
             $(that.options._selector).filter(function() {
               return $(this).data('bs.confirmation') !== undefined;
@@ -84,6 +89,7 @@
     title: 'Are you sure?',
     html: true,
     href: false,
+    method: '',
     popout: false,
     singleton: false,
     target: '_self',
@@ -157,6 +163,13 @@
       $tip.find('[data-apply="confirmation"]').attr({
         href: o.href,
         target: o.target
+      });
+    }
+
+    // add data-method attribute to support Rails if needed
+    if (o.method && o.method == "delete" ) {
+      $tip.find('[data-apply="confirmation"]').attr({
+        'data-method': o.method
       });
     }
 
